@@ -20,11 +20,12 @@ struct BirthdayContact: Codable, Identifiable {
     }
 
     var initials: String {
-
+        let formatted = nameComponents.formatted(.name(style: .abbreviated))
+        return formatted.isEmpty ? String(displayName.prefix(1)).uppercased() : formatted
     }
 
     var nameComponents: PersonNameComponents {
-
+        
     }
 
     static let example: BirthdayContact = {
