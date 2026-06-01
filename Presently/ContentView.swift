@@ -28,6 +28,16 @@ struct ContentView: View {
                 } else {
                     BirthdayListView(store: store)
                         .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Menu("Reminder Timing", systemImage: "bell") {
+                                    Picker("Reminder Timing", selection: $store.leadTime) {
+                                        ForEach(ReminderLeadTime.allCases, id: \.self) { leadTime in
+                                            Text(leadTime.title)
+                                        }
+                                    }
+                                }
+                            }
+
                             ToolbarItem(placement: .topBarTrailing) {
                                 Button("Add Contacts", systemImage: "person.crop.circle.badge.plus") {
                                     showingPicker = true

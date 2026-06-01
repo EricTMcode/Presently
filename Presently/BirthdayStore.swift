@@ -18,6 +18,7 @@ class BirthdayStore {
     var leadTime: ReminderLeadTime = .oneWeek {
         didSet {
             UserDefaults.standard.set(leadTime.rawValue, forKey: leadTimeKey)
+            Task { await rescheduleNotifications() }
         }
     }
 
@@ -65,11 +66,13 @@ class BirthdayStore {
         guard newContacts.isEmpty == false else { return }
         contacts.append(contentsOf: newContacts)
         save()
+        Task { await rescheduleNotifications() }
     }
 
     func delete(_ contact: BirthdayContact) {
         contacts.removeAll { $0.id == contact.id }
         save()
+        Task { await rescheduleNotifications() }
     }
 
     func rescheduleNotifications() async {
