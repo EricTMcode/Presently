@@ -36,4 +36,16 @@ struct BirthdayContact: Codable, Identifiable {
 
         return BirthdayContact(id: "1", givenName: "Taylor", familyName: "Swift", birthday: components)
     }()
+
+    func nextBirthday(from date: Date = .now, calendar: Calendar = .current) -> Date? {
+        guard let month = birthday?.month, let day = birthday?.day else { return nil }
+
+        let startOfToday = calendar.startOfDay(for: date)
+
+        return calendar.nextDate(
+            after: startOfToday.addingTimeInterval(-1),
+            matching: DateComponents(month: month, day: day),
+            matchingPolicy: .strict
+        )
+    }
 }
