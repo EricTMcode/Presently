@@ -27,6 +27,13 @@ struct ContentView: View {
                     }
                 } else {
                     BirthdayListView(store: store)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button("Add Contacts", systemImage: "person.crop.circle.badge.plus") {
+                                    showingPicker = true
+                                }
+                            }
+                        }
                 }
             }
             .navigationTitle("Presently")
