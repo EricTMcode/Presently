@@ -59,4 +59,11 @@ struct BirthdayContact: Codable, Identifiable {
         let today = calendar.startOfDay(for: date)
         return calendar.dateComponents([.day], from: today, to: next).day
     }
+
+    func ageTurning(from date: Date = .now, calendar: Calendar = .current) -> Int? {
+        guard let birthYear = birthday?.year,
+              let next = nextBirthday(from: date, calendar: calendar) else { return nil }
+
+        return calendar.component(.year, from: next) - birthYear
+    }
 }
