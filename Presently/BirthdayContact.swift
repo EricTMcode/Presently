@@ -52,4 +52,11 @@ struct BirthdayContact: Codable, Identifiable {
             matchingPolicy: .strict
         )
     }
+
+    func daysUntilBirthday(from date: Date = .now, calendar: Calendar = .current) -> Int? {
+        guard let next = nextBirthday(from: date, calendar: calendar) else { return nil }
+
+        let today = calendar.startOfDay(for: date)
+        return calendar.dateComponents([.day], from: today, to: next).day
+    }
 }
