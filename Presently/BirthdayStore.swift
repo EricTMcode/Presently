@@ -11,6 +11,21 @@ import Foundation
 class BirthdayStore {
     var contacts = [BirthdayContact]()
 
+    var contactsWithBirthdays: [BirthdayContact] {
+        contacts
+            .filter { $0.birthday != nil }
+            .sorted { lhs, rhs in
+                let lhsDays = lhs.daysUntilBirthday() ?? .max
+                let rhsDays = rhs.daysUntilBirthday() ?? .max
+
+                if lhsDays == rhsDays {
+                    return lhs.displayName.localizedStandardCompare(rhs.displayName) == .orderedAscending
+                }
+
+                return lhsDays < rhsDays
+            }
+    }
+
     let storageURL = URL.documentsDirectory.appending(path: "PresentlyContacts.json")
 
     init() {
