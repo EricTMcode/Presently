@@ -8,14 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var store = BirthdayStore()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            Group {
+                if store.contacts.isEmpty {
+                    ContentUnavailableView {
+                        Label("Choose Contacts", systemImage: "gift")
+                    } description: {
+                        Text("Select the people whose birhtdays you want to remember.")
+                    }
+                } else {
+                    List(store.contacts) { contact in
+                        BirthdayRowView(contact: contact) {
+                            store.delete(contact)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Presently")
         }
-        .padding()
     }
 }
 
