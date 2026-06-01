@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		07FE36632FCDBF3F006ACE05 /* ContactPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FE36622FCDBF3F006ACE05 /* ContactPickerView.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		07FE364E2FCDAD2C006ACE05 /* Presently.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Presently.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		07FE36622FCDBF3F006ACE05 /* ContactPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactPickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +37,7 @@
 		07FE36452FCDAD2C006ACE05 = {
 			isa = PBXGroup;
 			children = (
+				07FE36622FCDBF3F006ACE05 /* ContactPickerView.swift */,
 				07FE36502FCDAD2C006ACE05 /* Presently */,
 				07FE364F2FCDAD2C006ACE05 /* Products */,
 			);
@@ -119,6 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07FE36632FCDBF3F006ACE05 /* ContactPickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +263,7 @@
 				DEVELOPMENT_TEAM = H7MDDDPC4H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSContactsUsageDescription = "Presently uses selected contacts to import birthdays and schedule reminders.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -288,6 +296,7 @@
 				DEVELOPMENT_TEAM = H7MDDDPC4H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSContactsUsageDescription = "Presently uses selected contacts to import birthdays and schedule reminders.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
