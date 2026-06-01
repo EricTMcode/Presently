@@ -11,12 +11,27 @@ import Foundation
 class BirthdayStore {
     var contacts = [BirthdayContact]()
 
+    let storageURL = URL.documentsDirectory.appending(path: "PresentlyContacts.json")
+
+    init() {
+        if let data = try? Data(contentsOf: storageURL), let stored = try? JSONDecoder().decode([BirthdayContact].self, from: data) {
+            contacts = stored
+        }
+    }
+
+    func save() {
+        guard let data = try? JSONEncoder().encode(contacts) else { return }
+        try? data.write(to: storageURL, options: .atomic)
+    }
+
     func add(_ newContacts: [BirthdayContact]) {
         guard newContacts.isEmpty == false else { return }
         contacts.append(contentsOf: newContacts)
+        save()
     }
 
     func delete(_ contact: BirthdayContact) {
         contacts.removeAll { $0.id == contact.id }
+        save()
     }
 }
