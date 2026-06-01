@@ -28,6 +28,10 @@ struct BirthdayContact: Codable, Identifiable {
         PersonNameComponents(givenName: givenName, familyName: familyName)
     }
 
+    var formattedBirthday: String? {
+        nextBirthday()?.formatted(.dateTime.month(.wide).day())
+    }
+
     static let example: BirthdayContact = {
         var components = DateComponents()
         components.day = 13
