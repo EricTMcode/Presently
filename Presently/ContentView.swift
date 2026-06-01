@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var store = BirthdayStore()
+    @State private var showingPicker = false
 
     var body: some View {
         NavigationStack {
@@ -18,6 +19,11 @@ struct ContentView: View {
                         Label("Choose Contacts", systemImage: "gift")
                     } description: {
                         Text("Select the people whose birhtdays you want to remember.")
+                    } actions: {
+                        Button("Select Contacts", systemImage: "person.crop.circle.badge.plus") {
+                            showingPicker = true
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
                 } else {
                     List(store.contacts) { contact in
@@ -28,6 +34,11 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Presently")
+        }
+        .sheet(isPresented: $showingPicker) {
+            ContactPickerView { newContacts in
+                store.add(newContacts)
+            }
         }
     }
 }
