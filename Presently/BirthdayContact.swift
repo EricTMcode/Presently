@@ -66,4 +66,19 @@ struct BirthdayContact: Codable, Identifiable {
 
         return calendar.component(.year, from: next) - birthYear
     }
+
+    func reminderDateCompoments(
+        leadTime: ReminderLeadTime,
+        from date: Date = .now,
+        calendar: Calendar = .current) -> DateComponents? {
+            guard let next = nextBirthday(from: date, calendar: calendar),
+                  let reminderDate = calendar.date(byAdding: .day, value: -leadTime.daysBeforeBirthday, to: next) else {
+                return nil
+            }
+
+            var trigger = calendar.dateComponents([.month, .day], from: reminderDate)
+            trigger.calendar = calendar
+            trigger.hour = 10
+            return trigger
+        }
 }

@@ -6,10 +6,20 @@
 //
 
 import Foundation
+import UserNotifications
 
 @Observable @MainActor
 class BirthdayStore {
     var contacts = [BirthdayContact]()
+
+    let notificationLimit = 64
+    let leadTimeKey = "ReminderLeadTime"
+
+    var leadTime: ReminderLeadTime = .oneWeek {
+        didSet {
+            UserDefaults.standard.set(leadTime.rawValue, forKey: leadTimeKey)
+        }
+    }
 
     var contactsWithBirthdays: [BirthdayContact] {
         contacts
@@ -40,6 +50,10 @@ class BirthdayStore {
         if let data = try? Data(contentsOf: storageURL), let stored = try? JSONDecoder().decode([BirthdayContact].self, from: data) {
             contacts = stored
         }
+
+        if let rawValue = UserDefaults.standard.string(forKey: leadTimeKey), let stored = ReminderLeadTime(rawValue: rawValue) {
+            leadTime = stored
+        }
     }
 
     func save() {
@@ -56,5 +70,33 @@ class BirthdayStore {
     func delete(_ contact: BirthdayContact) {
         contacts.removeAll { $0.id == contact.id }
         save()
+    }
+
+    func rescheduleNotifications() async {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
+
+        let upcoming = contactsWithBirthdays.prefix(notificationLimit)
+        guard upcoming.isEmpty == false else { return }
+
+        let granted = (try? await center.requestAuthorization(options: [.alert, .badge, .sound])) ?? false
+        guard granted else { return }
+
+        for contact in upcoming {
+            guard let trigger = contact.reminderDateCompoments(leadTime: leadTime) else { continue }
+
+            let content = UNMutableNotificationContent()
+            content.title = "Birthday reminder"
+            content.body = "Don't forget \(contact.displayName)'s birthday on \(contact.formattedBirthday ?? "")."
+            content.sound = .default
+
+            let request = UNNotificationRequest(
+                identifier: contact.id,
+                content: content,
+                trigger: UNCalendarNotificationTrigger(dateMatching: trigger, repeats: true)
+            )
+
+            try? await center.add(request)
+        }
     }
 }
