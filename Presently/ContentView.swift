@@ -26,11 +26,7 @@ struct ContentView: View {
                         .buttonStyle(.borderedProminent)
                     }
                 } else {
-                    List(store.contacts) { contact in
-                        BirthdayRowView(contact: contact) {
-                            store.delete(contact)
-                        }
-                    }
+                    BirthdayListView(store: store)
                 }
             }
             .navigationTitle("Presently")
