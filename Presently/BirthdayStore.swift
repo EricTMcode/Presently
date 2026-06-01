@@ -26,6 +26,14 @@ class BirthdayStore {
             }
     }
 
+    var contactsWithoutBirthdays: [BirthdayContact] {
+        contacts
+            .filter { $0.birthday == nil }
+            .sorted { lhs, rhs in
+                lhs.displayName.localizedStandardCompare(rhs.displayName) == .orderedAscending
+            }
+    }
+
     let storageURL = URL.documentsDirectory.appending(path: "PresentlyContacts.json")
 
     init() {
