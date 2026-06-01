@@ -25,7 +25,7 @@ struct BirthdayContact: Codable, Identifiable {
     }
 
     var nameComponents: PersonNameComponents {
-        
+        PersonNameComponents(givenName: givenName, familyName: familyName)
     }
 
     static let example: BirthdayContact = {
