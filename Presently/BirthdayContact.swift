@@ -14,6 +14,19 @@ struct BirthdayContact: Codable, Identifiable {
     var birthday: DateComponents?
     var thumbnailImageData: Data?
 
+    var displayName: String {
+        let formatted = nameComponents.formatted(.name(style: .medium))
+        return formatted.isEmpty ? "Unamed Contact" : formatted
+    }
+
+    var initials: String {
+
+    }
+
+    var nameComponents: PersonNameComponents {
+
+    }
+
     static let example: BirthdayContact = {
         var components = DateComponents()
         components.day = 13
